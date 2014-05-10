@@ -1,0 +1,47 @@
+package schoolwebpageparser;
+
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
+
+import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import util.webpage.Post;
+import util.webpage.SchoolWebpageParser;
+
+public class UpdateFromSchoolWebpage extends HttpServlet {
+	private static final long serialVersionUID = -6407706274584693180L;
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		List<Post> result = null;
+		Date lastDate = null;
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		//最新通知日期
+		Query query = pm.newQuery(Post.class);
+		query.setOrdering("date desc");
+		query.setRange(0, 1);
+		result = (List<Post>) query.execute();
+		if(!result.isEmpty())
+			lastDate = result.get(0).getDate();
+		//更新
+		SchoolWebpageParser parser = new SchoolWebpageParser();
+		result = parser.parsePosts(lastDate, null, -1);
+
+		try{
+			pm.makePersistentAll(result);
+		}finally{
+			query.closeAll();
+			pm.close();
+		}
+		
+		resp.getWriter().println("updated or overwrote"+result.size()+" posts.");
+	}
+
+}
