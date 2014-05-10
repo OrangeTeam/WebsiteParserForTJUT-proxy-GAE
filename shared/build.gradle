@@ -1,0 +1,122 @@
+dependencies {
+    compile 'org.orange:website-parser-tjut:2.0'
+    compile 'com.google.appengine:appengine-api-1.0-sdk:1.9.4'
+    compile 'javax.servlet:servlet-api:2.5'
+    compile 'javax.jdo:jdo-api:2.5'
+//    compile 'org.datanucleus:datanucleus-core:3.1.4'
+    compile 'com.google.appengine.orm:datanucleus-appengine:2.1.2'
+    compile 'org.datanucleus:datanucleus-api-jdo:3.1.3'
+}
+
+task copyPostClass << {
+    configurations.compile.files{dep -> dep.name == 'website-parser-tjut'}.each { file ->
+        if(file.name.contains("website-parser-tjut")) {
+            copy {
+                from zipTree(file).matching {filter -> filter.include(new Spec<FileTreeElement>(){
+                    @Override
+                    boolean isSatisfiedBy(FileTreeElement element) {
+                        return element.getName().equals('Post.class')
+                    }
+                })}
+                into sourceSets.main.output.classesDir
+            }
+        }
+    }
+}
+
+task enhance {
+    String enhancerVersion = "v2"
+    File classesDirectory = project.sourceSets.main.output.classesDir
+    doFirst {
+        setupSystemProperty()
+    }
+    doLast {
+        ant.taskdef(name: 'enhance', classpath: System.getProperty(JAVA_CLASSPATH_SYS_PROP_KEY),
+                    classname: 'com.google.appengine.tools.enhancer.EnhancerTask')
+        ant.enhance(failonerror: true, verbose: true) {
+            classpath {
+                pathelement(path: System.getProperty(JAVA_CLASSPATH_SYS_PROP_KEY))
+                pathelement(path: classesDirectory.canonicalPath)
+                pathelement(path: project.sourceSets.main.output.resourcesDir.canonicalPath)
+                pathelement(path: project.configurations.compile.asPath)
+            }
+            fileset(dir: classesDirectory.canonicalPath, includes: '**/*.class')
+
+            arg(value: "-enhancerVersion"); arg(value: enhancerVersion)
+
+//            if(getEnhancerApi()) {
+//                arg(value: "-api"); arg(value: getEnhancerApi())
+//            }
+        }
+    }
+}
+
+enhance.dependsOn copyPostClass
+enhance.dependsOn processResources
+classes.dependsOn enhance
+
+
+
+
+ext.APPENGINE_HOME_ENV_PROP_KEY = 'APPENGINE_HOME'
+ext.APPENGINE_SDK_ROOT_SYS_PROP_KEY = 'appengine.sdk.root'
+ext.JAVA_CLASSPATH_SYS_PROP_KEY = 'java.class.path'
+
+private void setupSystemProperty() {
+    validateConfiguration()
+}
+
+void validateConfiguration() {
+    validateAppEngineSdkRoot()
+    validateAppEngineToolsApiJar()
+}
+
+private void validateAppEngineSdkRoot() {
+    setAppEngineSdkRoot()
+    def appEngineSdkRoot = System.getProperty(APPENGINE_SDK_ROOT_SYS_PROP_KEY)
+
+    if(!appEngineSdkRoot) {
+        throw new InvalidUserDataException("""The App Engine SDK root was not set. Please make sure
+        you set the environment variable '${APPENGINE_HOME_ENV_PROP_KEY}' system property
+        '${APPENGINE_SDK_ROOT_SYS_PROP_KEY}'!""")
+    }
+    else {
+        if(!new File(appEngineSdkRoot).isDirectory()) {
+            throw new InvalidUserDataException("Set App Engine SDK root directory does not " +
+                    "exist:'${appEngineSdkRoot}'!")
+        }
+    }
+
+    logger.info "App Engine SDK root = ${appEngineSdkRoot}"
+}
+
+private void setAppEngineSdkRoot() {
+    def appEngineSdkRoot = System.getProperty(APPENGINE_SDK_ROOT_SYS_PROP_KEY)
+
+    if(!appEngineSdkRoot) {
+        def appEngineHomeEnvVariable = System.getenv(APPENGINE_HOME_ENV_PROP_KEY)
+
+        if(appEngineHomeEnvVariable) {
+            System.setProperty APPENGINE_SDK_ROOT_SYS_PROP_KEY, appEngineHomeEnvVariable
+        }
+    }
+}
+
+private void validateAppEngineToolsApiJar() {
+    def fileSeparator = System.getProperty('file.separator')
+    def pathSeparator = File.pathSeparator
+    def appEngineSdkRoot = System.getProperty(APPENGINE_SDK_ROOT_SYS_PROP_KEY)
+    def javaClasspath = System.getProperty(JAVA_CLASSPATH_SYS_PROP_KEY)
+    def appEngineToolsApiJar = "${appEngineSdkRoot}${fileSeparator}lib${fileSeparator}appengine-tools-api.jar"
+
+    if(!new File(appEngineSdkRoot).exists()) {
+        throw new InvalidUserDataException("Required library 'appengine-tools-api.jar' " +
+                "could not be found in specified path: '${appEngineToolsApiJar}'!")
+    }
+
+    if(!javaClasspath.contains(appEngineToolsApiJar)) {
+        System.setProperty JAVA_CLASSPATH_SYS_PROP_KEY, "${javaClasspath}${pathSeparator}${appEngineToolsApiJar}"
+    }
+
+    logger.info "Java classpath = ${System.getProperty(JAVA_CLASSPATH_SYS_PROP_KEY)}"
+}

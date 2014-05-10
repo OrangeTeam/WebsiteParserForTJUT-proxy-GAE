@@ -1,0 +1,6 @@
+apply plugin: 'war'
+
+dependencies {
+    compile project(':shared')
+    compile 'com.caucho:hessian:4.0.7'
+}

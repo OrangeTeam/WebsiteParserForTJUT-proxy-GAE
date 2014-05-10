@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!-- This is the application.xml file intended for use with gradle, if you find it in your maven project, then that's a problem most likely. -->
+<application
+        xmlns="http://java.sun.com/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+                            http://java.sun.com/xml/ns/javaee/application_6.xsd"
+        version="6">
+
+    <description>GAE proxy of website parser for TJUT</description>
+    <display-name>WebsiteParser</display-name>
+
+    <!-- Modules -->
+    <!-- The default module should be listed first -->
+    <module>
+        <web>
+            <web-uri>appengine-modules-default-2.0</web-uri>
+            <context-root>appengine-modules-default</context-root>
+        </web>
+    </module>
+    <module>
+        <web>
+            <web-uri>appengine-modules-scanner-2.0</web-uri>
+            <context-root>appengine-modules-scanner</context-root>
+        </web>
+    </module>
+
+    <library-directory>lib</library-directory>
+
+</application>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cronentries>
+    <cron>
+        <url>/updatefromschoolwebpage</url>
+        <description>update posts from school webpage</description>
+        <schedule>every 6 hours</schedule>
+        <timezone>Asia/Shanghai</timezone>
+    </cron>
+    <!--
+    <cron>
+        <url>/updatefromschoolwebpage</url>
+        <description>test update posts from school webpage</description>
+        <schedule>every day 20:18</schedule>
+        <timezone>Asia/Shanghai</timezone>
+    </cron>
+    -->
+</cronentries>
