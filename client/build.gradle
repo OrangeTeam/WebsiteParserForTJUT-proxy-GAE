@@ -1,0 +1,6 @@
+dependencies {
+    compile 'com.exadel.flamingo.android:flamingo-android-hessian-client:2.2.0'
+
+    testCompile project(':api')
+    testCompile "junit:junit:4.11"
+}
