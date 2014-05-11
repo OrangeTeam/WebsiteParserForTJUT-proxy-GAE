@@ -17,7 +17,9 @@ include 'services:webservice'
 */
 
 rootProject.name = 'WebsiteParserForTJUT_proxy_GAE'
-include 'shared'
-include 'appengine-modules-ear'
-include 'appengine-modules-default'
-include 'appengine-modules-scanner'
+include 'api'
+include 'client'
+include 'server:shared'
+include 'server:appengine-modules-ear'
+include 'server:appengine-modules-default'
+include 'server:appengine-modules-scanner'

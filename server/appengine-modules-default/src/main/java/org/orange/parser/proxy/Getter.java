@@ -3,6 +3,7 @@ package org.orange.parser.proxy;
 import com.caucho.hessian.server.HessianServlet;
 
 import org.orange.parser.entity.Post;
+import org.orange.parser.proxy.api.GetterInterface;
 
 import java.util.Date;
 import java.util.LinkedList;

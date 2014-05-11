@@ -14,8 +14,8 @@ buildscript {
 
 dependencies {
 //    appengineSdk 'com.google.appengine:appengine-java-sdk:1.8.6'
-    deploy project(path: ':appengine-modules-default', configuration: 'archives')
-    deploy project(path: ':appengine-modules-scanner', configuration: 'archives')
+    deploy project(path: ':server:appengine-modules-default', configuration: 'archives')
+    deploy project(path: ':server:appengine-modules-scanner', configuration: 'archives')
 }
 
 appengine {

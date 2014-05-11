@@ -1,6 +1,6 @@
 apply plugin: 'war'
 
 dependencies {
-    compile project(':shared')
+    compile project(':server:shared')
 //    compile project(path: ':shared', configuration: 'archives')
 }

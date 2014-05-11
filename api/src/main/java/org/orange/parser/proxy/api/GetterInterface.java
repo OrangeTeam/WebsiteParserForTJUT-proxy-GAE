@@ -1,4 +1,4 @@
-package org.orange.parser.proxy;
+package org.orange.parser.proxy.api;
 
 import org.orange.parser.entity.Post;
 

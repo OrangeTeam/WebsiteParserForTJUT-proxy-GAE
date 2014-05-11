@@ -1,0 +1,3 @@
+dependencies {
+    compile 'org.orange:website-parser-tjut:2.0'
+}
