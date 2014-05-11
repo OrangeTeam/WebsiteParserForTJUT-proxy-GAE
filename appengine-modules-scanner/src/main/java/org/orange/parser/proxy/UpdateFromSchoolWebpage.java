@@ -43,7 +43,7 @@ public class UpdateFromSchoolWebpage extends HttpServlet {
             pm.close();
         }
 
-        resp.getWriter().println("updated or overwrote" + result.size() + " posts.");
+        resp.getWriter().println("updated or overwrote " + result.size() + " posts.");
     }
 
 }

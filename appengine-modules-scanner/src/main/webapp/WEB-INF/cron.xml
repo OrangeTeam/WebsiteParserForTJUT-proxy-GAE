@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cronentries>
     <cron>
-        <url>/updatefromschoolwebpage</url>
         <description>update posts from school webpage</description>
-        <schedule>every 6 hours</schedule>
-        <timezone>Asia/Shanghai</timezone>
-    </cron>
-    <!--
-    <cron>
+        <target>scanner</target>
         <url>/updatefromschoolwebpage</url>
-        <description>test update posts from school webpage</description>
-        <schedule>every day 20:18</schedule>
+        <!-- "synchronized" is a synonym for "from 00:00 to 23:59" -->
+        <schedule>every 6 hours synchronized</schedule>
         <timezone>Asia/Shanghai</timezone>
     </cron>
-    -->
 </cronentries>
