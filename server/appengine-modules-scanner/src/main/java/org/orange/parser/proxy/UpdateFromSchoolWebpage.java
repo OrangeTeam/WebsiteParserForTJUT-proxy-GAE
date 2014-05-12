@@ -4,6 +4,7 @@ import org.orange.parser.entity.Post;
 import org.orange.parser.parser.SchoolWebpageParser;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Enumeration;
@@ -23,15 +24,17 @@ public class UpdateFromSchoolWebpage extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        if("true".equals(req.getParameter("echo"))) {
-            Enumeration parameterNames = req.getParameterNames();
-            while(parameterNames.hasMoreElements()) {
-                final String name = (String) parameterNames.nextElement();
-                final String[] values = req.getParameterValues(name);
-                resp.getWriter().println(name + " : " + Arrays.toString(values));
-            }
-            return;
+        boolean isTestReq = false;
+        if (req.getParameter("echo") != null) {
+            echo(req, resp);
+            isTestReq = true;
         }
+        if (req.getParameter("show-post-class") != null) {
+            showPostClass(req, resp);
+            isTestReq = true;
+        }
+        if (isTestReq) return;
+
         List<Post> result = null;
         Date lastDate = null;
         PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -55,6 +58,24 @@ public class UpdateFromSchoolWebpage extends HttpServlet {
         }
 
         resp.getWriter().println("updated or overwrote " + result.size() + " posts.");
+    }
+
+    private void echo(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        Enumeration parameterNames = req.getParameterNames();
+        while(parameterNames.hasMoreElements()) {
+            final String name = (String) parameterNames.nextElement();
+            final String[] values = req.getParameterValues(name);
+            resp.getWriter().println(name + " : " + Arrays.toString(values));
+        }
+    }
+    private void showPostClass(HttpServletRequest req, HttpServletResponse resp) throws IOException{
+        resp.getWriter().println(Thread.currentThread().getContextClassLoader());
+        Post post = new Post();
+        Class<? extends Post> postClass = post.getClass();
+        resp.getWriter().println(postClass.getClassLoader());
+        for(Method method : postClass.getDeclaredMethods()) {
+            resp.getWriter().println(method);
+        }
     }
 
 }
