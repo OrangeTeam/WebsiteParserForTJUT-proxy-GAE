@@ -4,7 +4,9 @@ import org.orange.parser.entity.Post;
 import org.orange.parser.parser.SchoolWebpageParser;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.jdo.PersistenceManager;
@@ -21,6 +23,15 @@ public class UpdateFromSchoolWebpage extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+        if("true".equals(req.getParameter("echo"))) {
+            Enumeration parameterNames = req.getParameterNames();
+            while(parameterNames.hasMoreElements()) {
+                final String name = (String) parameterNames.nextElement();
+                final String[] values = req.getParameterValues(name);
+                resp.getWriter().println(name + " : " + Arrays.toString(values));
+            }
+            return;
+        }
         List<Post> result = null;
         Date lastDate = null;
         PersistenceManager pm = PMF.get().getPersistenceManager();
