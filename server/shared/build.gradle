@@ -38,7 +38,7 @@ task enhance {
                 pathelement(path: System.getProperty(JAVA_CLASSPATH_SYS_PROP_KEY))
                 pathelement(path: classesDirectory.canonicalPath)
                 pathelement(path: project.sourceSets.main.output.resourcesDir.canonicalPath)
-                pathelement(path: project.configurations.compile.asPath)
+//                pathelement(path: project.configurations.compile.asPath)
             }
             fileset(dir: classesDirectory.canonicalPath, includes: '**/*.class')
 
