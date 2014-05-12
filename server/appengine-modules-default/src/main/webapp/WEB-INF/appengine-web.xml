@@ -21,6 +21,9 @@
         <max-concurrent-requests>50</max-concurrent-requests>
     </automatic-scaling>
 
+    <class-loader-config>
+        <priority-specifier filename="shared-2.0.jar"/>
+    </class-loader-config>
 
 
     <!-- Configure java.util.logging -->
