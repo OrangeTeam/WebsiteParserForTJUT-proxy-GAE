@@ -1,3 +1,11 @@
 dependencies {
     compile 'org.orange:website-parser-tjut:2.0'
 }
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId 'website-parser-tjut-proxy-api'
+        }
+    }
+}

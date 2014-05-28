@@ -4,3 +4,11 @@ dependencies {
     testCompile project(':api')
     testCompile "junit:junit:4.11"
 }
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId 'website-parser-tjut-proxy-gae-client'
+        }
+    }
+}

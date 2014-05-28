@@ -1,5 +1,5 @@
 allprojects {
-    group = 'org.orange.parser.proxy'
+    group = 'org.orange'
     version = '2.0'
 }
 
@@ -20,4 +20,23 @@ subprojects {
         mavenCentral()
         mavenLocal()
     }
+}
+
+configure([project(":api"), project(":client")]) {
+    apply plugin: 'maven-publish'
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                from components.java
+                artifact sourceJar {
+                    classifier "sources"
+                }
+            }
+        }
+    }
+    task sourceJar(type: Jar) {
+        from sourceSets.main.allJava
+    }
+    task install(dependsOn: publishToMavenLocal)
 }
