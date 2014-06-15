@@ -22,7 +22,7 @@ public class MyHessianSocketConnectionFactory extends
      */
     @Override
     public HessianConnection open(URL url) throws IOException {
-        InetSocketAddress socketAddress = new InetSocketAddress("www3.l.google.com", 443);
+        InetSocketAddress socketAddress = new InetSocketAddress("www.google.com.hk", 443);
         Socket socket = SSLSocketFactory.getDefault().createSocket();
         HessianProxyFactory proxyFactory = getHessianProxyFactory();
         int timeout = (int) proxyFactory.getConnectTimeout();
