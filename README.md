@@ -13,13 +13,16 @@
 
 建议把GAE Java SDK的根目录设为`APPENGINE_HOME`环境变量。
 
-client子项目依赖于`com.exadel.flamingo.android:flamingo-android-hessian-client:2.2.0`，请把它安装在本地Maven仓库中。
-
 ### 克隆代码库
 `git clone https://github.com/OrangeTeam/WebsiteParserForTJUT-proxy-GAE.git`
 
 ### 编译，测试，构建jar包
 `./gradlew build`
+
+#### Tips
+本项目依赖于[WebsiteParserForTJUT][]，在编译本项目之前需把WebsiteParserForTJUT的工件发布到Maven本地仓库（可在WebsiteParserForTJUT项目目录下运行./gradlew install）。
+
+client子项目依赖于`com.exadel.flamingo.android:flamingo-android-hessian-client:2.2.0`，编译前请把这个第三方库安装在本地Maven仓库中。
 
 ### 发布本项目生成的jar产品到本地Maven缓存
 `./gradlew install`
@@ -36,6 +39,7 @@ client子项目依赖于`com.exadel.flamingo.android:flamingo-android-hessian-cl
 [JDK]: http://www.oracle.com/technetwork/java/javase/downloads/index.html
 [appengine-java-sdk]: https://developers.google.com/appengine/downloads#Google_App_Engine_SDK_for_Java
 [Git]: http://git-scm.com
+[WebsiteParserForTJUT]: https://github.com/OrangeTeam/WebsiteParserForTJUT
 [man:Gradle]: http://www.gradle.org/documentation
 [man:MavenLocal]: http://www.gradle.org/docs/current/userguide/dependency_management.html#sub:maven_local
 [man:gradle-appengine-plugin]: https://github.com/GoogleCloudPlatform/gradle-appengine-plugin
