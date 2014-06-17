@@ -26,11 +26,16 @@ client子项目依赖于`com.exadel.flamingo.android:flamingo-android-hessian-cl
 
 本地Maven缓存的使用及路径请参考Gradle[手册][man:MavenLocal]。
 
+### 其他
 您可以通过`./gradlew tasks`查找到更多可用任务。
+
+您可以在[Gradle官网][man:Gradle]和[Gradle App Engine plugin][man:gradle-appengine-plugin]找到更详细的文档。
 
 [WebsiteParserForTJUT]: https://github.com/OrangeTeam/WebsiteParserForTJUT
 [Gradle]: http://gradle.org
 [JDK]: http://www.oracle.com/technetwork/java/javase/downloads/index.html
 [appengine-java-sdk]: https://developers.google.com/appengine/downloads#Google_App_Engine_SDK_for_Java
 [Git]: http://git-scm.com
+[man:Gradle]: http://www.gradle.org/documentation
 [man:MavenLocal]: http://www.gradle.org/docs/current/userguide/dependency_management.html#sub:maven_local
+[man:gradle-appengine-plugin]: https://github.com/GoogleCloudPlatform/gradle-appengine-plugin
